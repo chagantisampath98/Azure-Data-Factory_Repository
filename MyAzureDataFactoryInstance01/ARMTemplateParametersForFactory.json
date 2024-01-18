@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "MyAzureDataFactoryInstance01"
+		},
+		"LS_AzureSQLDb_Connection_connectionString": {
+			"value": ""
+		},
+		"LS_Sink_Zip_accountKey": {
+			"value": ""
+		},
+		"LS_Source_Connection_connectionString": {
+			"value": ""
+		},
+		"LS_Source_Zip_connectionString": {
+			"value": ""
+		},
+		"LS_Target_Connection_accountKey": {
+			"value": ""
+		},
+		"LS_HttpServer_Connection_properties_typeProperties_url": {
+			"value": "@{linkedService().baseURL}"
+		},
+		"LS_Sink_Zip_properties_typeProperties_url": {
+			"value": "https://targetdlgen2storageacc.dfs.core.windows.net/"
+		},
+		"LS_Target_Connection_properties_typeProperties_url": {
+			"value": "https://targetdlgen2storageacc.dfs.core.windows.net/"
+		}
+	}
+}
