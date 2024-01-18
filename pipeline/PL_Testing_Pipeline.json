@@ -1,0 +1,17 @@
+{
+	"name": "PL_Testing_Pipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "Just testing Wait",
+				"type": "Wait",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 5
+				}
+			}
+		],
+		"annotations": []
+	}
+}
