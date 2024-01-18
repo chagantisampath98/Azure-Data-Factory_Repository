@@ -1,0 +1,9 @@
+{
+	"name": "MyAzureDataFactoryInstance01",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "89d506ab-dce3-42bb-b094-cd3026da8a76",
+		"tenantId": "715ea784-a51a-42fb-ab0e-c5fabea73038"
+	}
+}

@@ -1,0 +1,25 @@
+{
+	"name": "F1_dataset_Source_zip_file",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_Source_Zip",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Formula1_2023season_raceResults.zip",
+				"container": "raw"
+			},
+			"columnDelimiter": ",",
+			"compressionCodec": "ZipDeflate",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

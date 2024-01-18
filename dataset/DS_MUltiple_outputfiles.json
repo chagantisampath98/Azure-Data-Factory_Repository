@@ -1,0 +1,78 @@
+{
+	"name": "DS_MUltiple_outputfiles",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_Target_Connection",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"SinkFileNames": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().SinkFileNames",
+					"type": "Expression"
+				},
+				"folderPath": "Multiple_OutputFiles",
+				"fileSystem": "refined"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Track",
+				"type": "String"
+			},
+			{
+				"name": "Position",
+				"type": "String"
+			},
+			{
+				"name": "No",
+				"type": "String"
+			},
+			{
+				"name": "Driver",
+				"type": "String"
+			},
+			{
+				"name": "Team",
+				"type": "String"
+			},
+			{
+				"name": "Starting Grid",
+				"type": "String"
+			},
+			{
+				"name": "Laps",
+				"type": "String"
+			},
+			{
+				"name": "Time/Retired",
+				"type": "String"
+			},
+			{
+				"name": "Points",
+				"type": "String"
+			},
+			{
+				"name": "Set Fastest Lap",
+				"type": "String"
+			},
+			{
+				"name": "Fastest Lap Time",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

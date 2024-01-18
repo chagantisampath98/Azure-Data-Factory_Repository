@@ -1,0 +1,21 @@
+{
+	"name": "DS_JSON_HTTP_Output_Files",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_Target_Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "JSON_HTTP_Multiple_Output_Files",
+				"fileSystem": "refined"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,24 @@
+{
+	"name": "DestinationDataset_t0l",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_Target_Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "F1_RaceResults.csv",
+				"fileSystem": "refined"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

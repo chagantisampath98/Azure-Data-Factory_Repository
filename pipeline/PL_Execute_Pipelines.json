@@ -1,0 +1,43 @@
+{
+	"name": "PL_Execute_Pipelines",
+	"properties": {
+		"activities": [
+			{
+				"name": "Blob to SQL",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_Blob_To_SQLDB",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "SQL to ADLS",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Blob to SQL",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_SQLDB_To_ADLS",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2024-01-16T19:16:19Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
