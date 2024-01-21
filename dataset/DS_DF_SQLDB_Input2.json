@@ -1,0 +1,62 @@
+{
+	"name": "DS_DF_SQLDB_Input2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_AzureSQLDb_Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Track",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Position",
+				"type": "nvarchar"
+			},
+			{
+				"name": "No",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Driver",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Team",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Starting Grid",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Laps",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Time/Retired",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Points",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Set Fastest Lap",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Fastest Lap Time",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Formula1_2023season_raceResults.csv"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

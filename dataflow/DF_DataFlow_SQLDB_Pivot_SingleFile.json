@@ -1,0 +1,66 @@
+{
+	"name": "DF_DataFlow_SQLDB_Pivot_SingleFile",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_DF_SQLDB_Input",
+						"type": "DatasetReference"
+					},
+					"name": "SQLDBF1DriverOfTheDay"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_DF_Output",
+						"type": "DatasetReference"
+					},
+					"name": "Sink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "pivotTransformation"
+				},
+				{
+					"name": "FilteringNull"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Track as string,",
+				"          {1st Place} as string,",
+				"          {1st Place(%)} as float,",
+				"          {2nd Place} as string,",
+				"          {2nd Place(%)} as float,",
+				"          {3rd Place} as string,",
+				"          {3rd Place(%)} as float,",
+				"          {4th Place} as string,",
+				"          {4th Place(%)} as float,",
+				"          {5th Place} as string,",
+				"          {5th Place(%)} as float",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     inferDriftedColumnTypes: true,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table',",
+				"     partitionBy('hash', 1)) ~> SQLDBF1DriverOfTheDay",
+				"FilteringNull pivot(pivotBy(Track),",
+				"     {} = round(avg({1st Place(%)}), 2),",
+				"     columnNaming: 'FirstPlace$N_$V_Avg',",
+				"     lateral: true) ~> pivotTransformation",
+				"SQLDBF1DriverOfTheDay derive({1st Place(%)} = iif(isNull({1st Place(%)}), 0,toInteger({1st Place(%)}))) ~> FilteringNull",
+				"pivotTransformation sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['PivotTransforamtion_F1DriverOfTheDay'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> Sink"
+			]
+		}
+	}
+}

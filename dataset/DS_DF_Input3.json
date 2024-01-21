@@ -1,0 +1,85 @@
+{
+	"name": "DS_DF_Input3",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_Source_Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Formula1_2023season_calendar.csv",
+				"container": "raw"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Round",
+				"type": "String"
+			},
+			{
+				"name": "Race Date",
+				"type": "String"
+			},
+			{
+				"name": "GP Name",
+				"type": "String"
+			},
+			{
+				"name": "Country",
+				"type": "String"
+			},
+			{
+				"name": "City",
+				"type": "String"
+			},
+			{
+				"name": "Circuit Name",
+				"type": "String"
+			},
+			{
+				"name": "First GP",
+				"type": "String"
+			},
+			{
+				"name": "Number of Laps",
+				"type": "String"
+			},
+			{
+				"name": "Circuit Length(km)",
+				"type": "String"
+			},
+			{
+				"name": "Race Distance(km)",
+				"type": "String"
+			},
+			{
+				"name": "Lap Record",
+				"type": "String"
+			},
+			{
+				"name": "Record Owner",
+				"type": "String"
+			},
+			{
+				"name": "Record Year",
+				"type": "String"
+			},
+			{
+				"name": "Turns",
+				"type": "String"
+			},
+			{
+				"name": "DRS Zones",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

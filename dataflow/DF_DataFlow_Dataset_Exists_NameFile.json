@@ -1,0 +1,76 @@
+{
+	"name": "DF_DataFlow_Dataset_Exists_NameFile",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_DF_Input5",
+						"type": "DatasetReference"
+					},
+					"name": "F1QualifyingQ3"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_DF_Input6",
+						"type": "DatasetReference"
+					},
+					"name": "F1SprintSQ3"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_DF_Output",
+						"type": "DatasetReference"
+					},
+					"name": "SinkQ3"
+				}
+			],
+			"transformations": [
+				{
+					"name": "existsQ3Results"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Track as string,",
+				"          Position as string,",
+				"          No as short,",
+				"          Driver as string,",
+				"          Team as string,",
+				"          Q1 as string,",
+				"          Q2 as string,",
+				"          Q3 as string,",
+				"          Laps as short",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> F1QualifyingQ3",
+				"source(output(",
+				"          Track as string,",
+				"          Position as string,",
+				"          No as short,",
+				"          Driver as string,",
+				"          Team as string,",
+				"          SQ1 as string,",
+				"          SQ2 as string,",
+				"          SQ3 as string,",
+				"          Laps as short",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> F1SprintSQ3",
+				"F1QualifyingQ3, F1SprintSQ3 exists(Q3 == SQ3,",
+				"     negate:false,",
+				"     broadcast: 'auto')~> existsQ3Results",
+				"existsQ3Results sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     rowUrlColumn:'Driver',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SinkQ3"
+			]
+		}
+	}
+}

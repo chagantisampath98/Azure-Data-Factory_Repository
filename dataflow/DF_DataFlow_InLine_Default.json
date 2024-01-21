@@ -1,0 +1,65 @@
+{
+	"name": "DF_DataFlow_InLine_Default",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"linkedService": {
+						"referenceName": "LS_DF_Blob",
+						"type": "LinkedServiceReference"
+					},
+					"name": "F1Data"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_DF_Output",
+						"type": "DatasetReference"
+					},
+					"name": "TargetData"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FilteringRows"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Track as string,",
+				"          Position as string,",
+				"          No as short,",
+				"          Driver as string,",
+				"          Team as string,",
+				"          {Starting Grid} as short,",
+				"          Laps as short,",
+				"          {Time/Retired} as string,",
+				"          Points as short,",
+				"          {Set Fastest Lap} as boolean,",
+				"          {Fastest Lap Time} as string",
+				"     ),",
+				"     useSchema: false,",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'delimited',",
+				"     container: 'raw',",
+				"     fileName: 'Formula1_2023season_raceResults.csv',",
+				"     columnDelimiter: ',',",
+				"     escapeChar: '\\\\',",
+				"     quoteChar: '\\\"',",
+				"     columnNamesAsHeader: true,",
+				"     partitionBy('hash', 1)) ~> F1Data",
+				"F1Data filter(Team == 'Red Bull Racing Honda RBPT' && Track == 'United States',",
+				"     partitionBy('hash', 1)) ~> FilteringRows",
+				"FilteringRows sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> TargetData"
+			]
+		}
+	}
+}

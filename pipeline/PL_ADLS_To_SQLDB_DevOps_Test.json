@@ -1,10 +1,9 @@
 {
-	"name": "PL_UnZipping_Copying",
+	"name": "PL_ADLS_To_SQLDB_DevOps_Test",
 	"properties": {
-		"description": "unzipping the files from blob storage to sink/target folder (azure data lake service gen 2)",
 		"activities": [
 			{
-				"name": "Copy data from Blob to ADLS",
+				"name": "Copy data from adls to sqldb for devops",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -19,27 +18,20 @@
 					"source": {
 						"type": "DelimitedTextSource",
 						"storeSettings": {
-							"type": "AzureBlobStorageReadSettings",
+							"type": "AzureBlobFSReadSettings",
 							"recursive": true,
 							"enablePartitionDiscovery": false
 						},
 						"formatSettings": {
-							"type": "DelimitedTextReadSettings",
-							"compressionProperties": {
-								"type": "ZipDeflateReadSettings"
-							}
+							"type": "DelimitedTextReadSettings"
 						}
 					},
 					"sink": {
-						"type": "DelimitedTextSink",
-						"storeSettings": {
-							"type": "AzureBlobFSWriteSettings"
-						},
-						"formatSettings": {
-							"type": "DelimitedTextWriteSettings",
-							"quoteAllText": true,
-							"fileExtension": ".csv"
-						}
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
 					},
 					"enableStaging": false,
 					"translator": {
@@ -53,13 +45,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "F1_dataset_Source_zip_file",
+						"referenceName": "DS_DevOps_ADLS_Source",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "F1_dataset_Sink_zip_file",
+						"referenceName": "DS_DevOps_SQLDB_Sink",
 						"type": "DatasetReference"
 					}
 				]

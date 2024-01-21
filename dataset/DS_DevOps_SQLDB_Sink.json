@@ -1,5 +1,5 @@
 {
-	"name": "DS_AzureSQL_Db_Sink",
+	"name": "DS_DevOps_SQLDB_Sink",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_AzureSQLDb_Connection",
@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "Movies"
+			"table": "testing_table"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"

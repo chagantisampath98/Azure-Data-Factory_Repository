@@ -1,0 +1,69 @@
+{
+	"name": "DS_DF_Input2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_Source_Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Formula1_2023season_raceResults.csv",
+				"container": "raw"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Track",
+				"type": "String"
+			},
+			{
+				"name": "Position",
+				"type": "String"
+			},
+			{
+				"name": "No",
+				"type": "String"
+			},
+			{
+				"name": "Driver",
+				"type": "String"
+			},
+			{
+				"name": "Team",
+				"type": "String"
+			},
+			{
+				"name": "Starting Grid",
+				"type": "String"
+			},
+			{
+				"name": "Laps",
+				"type": "String"
+			},
+			{
+				"name": "Time/Retired",
+				"type": "String"
+			},
+			{
+				"name": "Points",
+				"type": "String"
+			},
+			{
+				"name": "Set Fastest Lap",
+				"type": "String"
+			},
+			{
+				"name": "Fastest Lap Time",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

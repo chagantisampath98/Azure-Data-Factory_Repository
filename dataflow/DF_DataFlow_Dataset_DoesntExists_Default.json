@@ -1,0 +1,87 @@
+{
+	"name": "DF_DataFlow_Dataset_DoesntExists_Default",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_DF_Input3",
+						"type": "DatasetReference"
+					},
+					"name": "F1SeasonCalender"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_DF_Input4",
+						"type": "DatasetReference"
+					},
+					"name": "F1DriverOfTheDay"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_DF_Output",
+						"type": "DatasetReference"
+					},
+					"name": "DoesntExistSink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "DoenstExists"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Round as short,",
+				"          {Race Date} as string,",
+				"          {GP Name} as string,",
+				"          Country as string,",
+				"          City as string,",
+				"          {Circuit Name} as string,",
+				"          {First GP} as short,",
+				"          {Number of Laps} as short,",
+				"          {Circuit Length(km)} as double,",
+				"          {Race Distance(km)} as double,",
+				"          {Lap Record} as string,",
+				"          {Record Owner} as string,",
+				"          {Record Year} as short,",
+				"          Turns as short,",
+				"          {DRS Zones} as short",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     partitionBy('hash', 1)) ~> F1SeasonCalender",
+				"source(output(",
+				"          Track as string,",
+				"          {1st Place} as string,",
+				"          {1st Place(%)} as double,",
+				"          {2nd Place} as string,",
+				"          {2nd Place(%)} as double,",
+				"          {3rd Place} as string,",
+				"          {3rd Place(%)} as double,",
+				"          {4th Place} as string,",
+				"          {4th Place(%)} as double,",
+				"          {5th Place} as string,",
+				"          {5th Place(%)} as double",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     partitionBy('hash', 1)) ~> F1DriverOfTheDay",
+				"F1SeasonCalender, F1DriverOfTheDay exists({Record Owner} == {1st Place},",
+				"     negate:true,",
+				"     partitionBy('hash', 1),",
+				"     broadcast: 'auto')~> DoenstExists",
+				"DoenstExists sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> DoesntExistSink"
+			]
+		}
+	}
+}

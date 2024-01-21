@@ -1,0 +1,114 @@
+{
+	"name": "DF_DataFlow_Joins_SingleFile",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_DF_input7",
+						"type": "DatasetReference"
+					},
+					"name": "F1Teams"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_DF_Input8",
+						"type": "DatasetReference"
+					},
+					"name": "F1Drivers"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_DF_Output",
+						"type": "DatasetReference"
+					},
+					"name": "sink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "selectF1Teams"
+				},
+				{
+					"name": "selectF1Drivers"
+				},
+				{
+					"name": "join"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Team as string,",
+				"          {Full Team Name} as string,",
+				"          Base as string,",
+				"          {Team Chief} as string,",
+				"          {Technical Chief} as string,",
+				"          Chassis as string,",
+				"          {Power Unit} as string,",
+				"          {First Team Entry} as short,",
+				"          {World Championships} as short,",
+				"          {Highest Race Finish} as string,",
+				"          {Pole Positions} as short,",
+				"          {Fastest Laps} as short",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     partitionBy('hash', 1)) ~> F1Teams",
+				"source(output(",
+				"          Driver as string,",
+				"          Abbreviation as string,",
+				"          No as short,",
+				"          Team as string,",
+				"          Country as string,",
+				"          Podiums as short,",
+				"          Points as double,",
+				"          {Grands Prix Entered} as short,",
+				"          {World Championships} as short,",
+				"          {Highest Race Finish} as string,",
+				"          {Highest Grid Position} as short,",
+				"          {Date of Birth} as string,",
+				"          {Place of Birth} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     partitionBy('hash', 1)) ~> F1Drivers",
+				"F1Teams select(mapColumn(",
+				"          Team,",
+				"          {Team Chief},",
+				"          {World Championships},",
+				"          {Highest Race Finish}",
+				"     ),",
+				"     partitionBy('hash', 1),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectF1Teams",
+				"F1Drivers select(mapColumn(",
+				"          Driver,",
+				"          No,",
+				"          Country,",
+				"          Podiums,",
+				"          {Drivers Team} = Team",
+				"     ),",
+				"     partitionBy('hash', 1),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectF1Drivers",
+				"selectF1Teams, selectF1Drivers join(Team == {Drivers Team},",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     partitionBy('hash', 1),",
+				"     broadcast: 'auto')~> join",
+				"join sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['JoinedF1Data'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink"
+			]
+		}
+	}
+}

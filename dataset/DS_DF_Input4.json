@@ -1,0 +1,69 @@
+{
+	"name": "DS_DF_Input4",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_Source_Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Formula1_2023season_driverOfTheDayVotes.csv",
+				"container": "raw"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Track",
+				"type": "String"
+			},
+			{
+				"name": "1st Place",
+				"type": "String"
+			},
+			{
+				"name": "1st Place(%)",
+				"type": "String"
+			},
+			{
+				"name": "2nd Place",
+				"type": "String"
+			},
+			{
+				"name": "2nd Place(%)",
+				"type": "String"
+			},
+			{
+				"name": "3rd Place",
+				"type": "String"
+			},
+			{
+				"name": "3rd Place(%)",
+				"type": "String"
+			},
+			{
+				"name": "4th Place",
+				"type": "String"
+			},
+			{
+				"name": "4th Place(%)",
+				"type": "String"
+			},
+			{
+				"name": "5th Place",
+				"type": "String"
+			},
+			{
+				"name": "5th Place(%)",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

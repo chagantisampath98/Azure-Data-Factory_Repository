@@ -1,0 +1,77 @@
+{
+	"name": "DS_DF_Input8",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_DF_Blob",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Formula1_2023season_drivers.csv",
+				"container": "raw"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Driver",
+				"type": "String"
+			},
+			{
+				"name": "Abbreviation",
+				"type": "String"
+			},
+			{
+				"name": "No",
+				"type": "String"
+			},
+			{
+				"name": "Team",
+				"type": "String"
+			},
+			{
+				"name": "Country",
+				"type": "String"
+			},
+			{
+				"name": "Podiums",
+				"type": "String"
+			},
+			{
+				"name": "Points",
+				"type": "String"
+			},
+			{
+				"name": "Grands Prix Entered",
+				"type": "String"
+			},
+			{
+				"name": "World Championships",
+				"type": "String"
+			},
+			{
+				"name": "Highest Race Finish",
+				"type": "String"
+			},
+			{
+				"name": "Highest Grid Position",
+				"type": "String"
+			},
+			{
+				"name": "Date of Birth",
+				"type": "String"
+			},
+			{
+				"name": "Place of Birth",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

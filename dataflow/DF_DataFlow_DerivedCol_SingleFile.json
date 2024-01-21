@@ -1,0 +1,61 @@
+{
+	"name": "DF_DataFlow_DerivedCol_SingleFile",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_DF_Input8",
+						"type": "DatasetReference"
+					},
+					"name": "F1Drivers"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_DF_Output",
+						"type": "DatasetReference"
+					},
+					"name": "Sink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "derivedColumnForYear"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Driver as string,",
+				"          Abbreviation as string,",
+				"          No as short,",
+				"          Team as string,",
+				"          Country as string,",
+				"          Podiums as short,",
+				"          Points as double,",
+				"          {Grands Prix Entered} as short,",
+				"          {World Championships} as short,",
+				"          {Highest Race Finish} as string,",
+				"          {Highest Grid Position} as short,",
+				"          {Date of Birth} as string,",
+				"          {Place of Birth} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     partitionBy('hash', 1)) ~> F1Drivers",
+				"F1Drivers derive(Birth_Year = year(toDate({Date of Birth}, 'dd/MM/yyyy')),",
+				"          Birth_Date = dayOfMonth(toDate({Date of Birth}, 'dd/MM/yyyy')),",
+				"     partitionBy('hash', 1)) ~> derivedColumnForYear",
+				"derivedColumnForYear sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['F1DriversDerivedColDateOfBirth'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> Sink"
+			]
+		}
+	}
+}

@@ -1,0 +1,61 @@
+{
+	"name": "DF_DataFlow_SQLDB_Window_SingleFile",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_DF_SQLDB_Input2",
+						"type": "DatasetReference"
+					},
+					"name": "F1RaceResultsData"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_DF_Output",
+						"type": "DatasetReference"
+					},
+					"name": "Sink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "window"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Track as string,",
+				"          Position as integer,",
+				"          No as string,",
+				"          Driver as string,",
+				"          Team as string,",
+				"          {Starting Grid} as string,",
+				"          Laps as string,",
+				"          {Time/Retired} as string,",
+				"          Points as string,",
+				"          {Set Fastest Lap} as string,",
+				"          {Fastest Lap Time} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> F1RaceResultsData",
+				"F1RaceResultsData window(over(Driver),",
+				"     asc(Position, true),",
+				"     Rank = rank(),",
+				"          Densed_rank = denseRank(),",
+				"          Row_number = rowNumber()) ~> window",
+				"window sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['F1RaceResults_Window'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> Sink"
+			]
+		}
+	}
+}

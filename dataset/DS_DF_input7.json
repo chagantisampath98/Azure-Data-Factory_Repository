@@ -1,0 +1,73 @@
+{
+	"name": "DS_DF_input7",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_DF_Blob",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Formula1_2023season_teams.csv",
+				"container": "raw"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Team",
+				"type": "String"
+			},
+			{
+				"name": "Full Team Name",
+				"type": "String"
+			},
+			{
+				"name": "Base",
+				"type": "String"
+			},
+			{
+				"name": "Team Chief",
+				"type": "String"
+			},
+			{
+				"name": "Technical Chief",
+				"type": "String"
+			},
+			{
+				"name": "Chassis",
+				"type": "String"
+			},
+			{
+				"name": "Power Unit",
+				"type": "String"
+			},
+			{
+				"name": "First Team Entry",
+				"type": "String"
+			},
+			{
+				"name": "World Championships",
+				"type": "String"
+			},
+			{
+				"name": "Highest Race Finish",
+				"type": "String"
+			},
+			{
+				"name": "Pole Positions",
+				"type": "String"
+			},
+			{
+				"name": "Fastest Laps",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

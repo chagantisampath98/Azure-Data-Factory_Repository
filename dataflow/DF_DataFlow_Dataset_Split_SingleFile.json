@@ -1,0 +1,113 @@
+{
+	"name": "DF_DataFlow_Dataset_Split_SingleFile",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_DF_Input2",
+						"type": "DatasetReference"
+					},
+					"name": "F1Data"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_DF_Output2",
+						"type": "DatasetReference"
+					},
+					"name": "RedBullHondaSink"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_DF_Output2",
+						"type": "DatasetReference"
+					},
+					"name": "MercedesSink"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_DF_Output2",
+						"type": "DatasetReference"
+					},
+					"name": "RenaultSink"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_DF_Output2",
+						"type": "DatasetReference"
+					},
+					"name": "FerrariSink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SplitByTeam"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Track as string,",
+				"          Position as string,",
+				"          No as string,",
+				"          Driver as string,",
+				"          Team as string,",
+				"          {Starting Grid} as string,",
+				"          Laps as string,",
+				"          {Time/Retired} as string,",
+				"          Points as string,",
+				"          {Set Fastest Lap} as string,",
+				"          {Fastest Lap Time} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     partitionBy('hash', 1)) ~> F1Data",
+				"F1Data split(Team == 'Red Bull Racing Honda RBPT' || Team == 'AlphaTauri Honda RBPT',",
+				"     Team == 'Aston Martin Aramco Mercedes' || Team == 'Williams Mercedes' || Team == 'McLaren Mercedes',",
+				"     Team == 'Alpine Renault',",
+				"     Team == 'Ferrari' || Team == 'Alfa Romeo Ferrari' || Team == 'Haas Ferrari',",
+				"     disjoint: true,",
+				"     partitionBy('hash', 1)) ~> SplitByTeam@(RedBullHondaTeams, MercedesTeams, RenaultTeam, FerrariTeams, default)",
+				"SplitByTeam@RedBullHondaTeams sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['RedBullHondaSink.csv'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> RedBullHondaSink",
+				"SplitByTeam@MercedesTeams sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['MercedesSink.csv'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> MercedesSink",
+				"SplitByTeam@RenaultTeam sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['RenaultSink.csv'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> RenaultSink",
+				"SplitByTeam@FerrariTeams sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['FerrariSink.csv'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> FerrariSink"
+			]
+		}
+	}
+}

@@ -1,0 +1,58 @@
+{
+	"name": "DS_DF_SQLDB_Input",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_AzureSQLDb_Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Track",
+				"type": "nvarchar"
+			},
+			{
+				"name": "1st Place",
+				"type": "nvarchar"
+			},
+			{
+				"name": "1st Place(%)",
+				"type": "nvarchar"
+			},
+			{
+				"name": "2nd Place",
+				"type": "nvarchar"
+			},
+			{
+				"name": "2nd Place(%)",
+				"type": "nvarchar"
+			},
+			{
+				"name": "3rd Place",
+				"type": "nvarchar"
+			},
+			{
+				"name": "3rd Place(%)",
+				"type": "nvarchar"
+			},
+			{
+				"name": "4th Place",
+				"type": "nvarchar"
+			},
+			{
+				"name": "4th Place(%)",
+				"type": "nvarchar"
+			},
+			{
+				"name": "5th Place",
+				"type": "nvarchar"
+			},
+			{
+				"name": "5th Place(%)",
+				"type": "nvarchar"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

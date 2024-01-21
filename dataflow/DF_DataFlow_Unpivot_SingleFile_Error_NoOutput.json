@@ -1,0 +1,65 @@
+{
+	"name": "DF_DataFlow_Unpivot_SingleFile_Error_NoOutput",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_DF_Input9",
+						"type": "DatasetReference"
+					},
+					"name": "MoviesCSVData"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_DF_Output",
+						"type": "DatasetReference"
+					},
+					"name": "Sink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "aggregatingGenres"
+				},
+				{
+					"name": "unpivot"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          movie as integer,",
+				"          title as string,",
+				"          genres as string,",
+				"          year as double,",
+				"          Rating as double,",
+				"          {Rotton Tomato} as double",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     inferDriftedColumnTypes: true,",
+				"     ignoreNoFilesFound: false,",
+				"     partitionBy('hash', 1)) ~> MoviesCSVData",
+				"MoviesCSVData aggregate(avgComedy = round(avgIf(split(lower(genres), '|')[1] == 'comedy', Rating), 1,2),",
+				"          avgDrama = round(avgIf(split(lower(genres), '|')[1] == 'drama', Rating), 1,2),",
+				"          avgAction = round(avgIf(split(lower(genres), '|')[1] == 'action', Rating), 1,2)) ~> aggregatingGenres",
+				"aggregatingGenres unpivot(output(",
+				"          avgGenres as double,",
+				"          avgRating as double",
+				"     ),",
+				"     lateral: false,",
+				"     ignoreNullPivots: false,",
+				"     partitionBy('hash', 1)) ~> unpivot",
+				"unpivot sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['Movies_Unpivot'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> Sink"
+			]
+		}
+	}
+}
